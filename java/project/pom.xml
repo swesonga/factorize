@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- run "mvn help:effective-pom" to see the POM Maven will execute.
+     For more info about POM files, see
+     https://maven.apache.org/guides/introduction/introduction-to-the-pom.html
+-->
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.swesonga.math</groupId>
+    <artifactId>factorize</artifactId>
+    <version>1.0.0</version>
+
+    <!-- Specify the Java version to avoid the compiler error
+         "cannot find symbol" symbol: class var when running "mvn package". See
+         https://stackoverflow.com/questions/38882080/specifying-java-version-in-maven-differences-between-properties-and-compiler-p
+    -->
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+    </properties>
+
+    <!-- Package the program into an executable JAR file. See
+         https://stackoverflow.com/questions/51947119/no-main-manifest-in-maven-jar
+    -->
+    <build>
+        <plugins>
+            <plugin>
+                <!--
+                    https://maven.apache.org/plugins/maven-assembly-plugin/index.html
+                    https://maven.apache.org/plugins/maven-assembly-plugin/usage.html
+                -->
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.swesonga.math.Factorize</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <!-- https://maven.apache.org/plugins/maven-assembly-plugin/descriptor-refs.html -->
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
