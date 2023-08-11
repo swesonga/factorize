@@ -3,6 +3,12 @@
 <!-- run "mvn help:effective-pom" to see the POM Maven will execute.
      For more info about POM files, see
      https://maven.apache.org/guides/introduction/introduction-to-the-pom.html
+
+     To install the output JAR file in the local repository, run
+
+        mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=target/factorize-1.0.0-jar-with-dependencies.jar
+
+     See https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html
 -->
 <project>
     <modelVersion>4.0.0</modelVersion>
