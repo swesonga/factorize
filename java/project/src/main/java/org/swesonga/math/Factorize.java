@@ -401,17 +401,8 @@ public class Factorize implements Runnable {
                     return;
                 }
 
-                FactorizationUtils.logMessage("Creating array for the random number.");
-                var inputArray = new byte[inputAsIntValue];
-                
-                FactorizationUtils.logMessage("Generating the random number.");
-                var random = new Random();
+                byte[] inputArray = FactorizationUtils.getRandomBytes(seed, inputAsIntValue);
 
-                if (seed != 0) {
-                    random.setSeed(seed);
-                }
-                random.nextBytes(inputArray);
-                
                 FactorizationUtils.logMessage("Random number generation complete. Creating a BigInteger.");
                 input = new BigInteger(inputArray).abs();
             }

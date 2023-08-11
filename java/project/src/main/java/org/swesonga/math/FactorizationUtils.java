@@ -3,6 +3,7 @@ package org.swesonga.math;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class FactorizationUtils {
     final static BigInteger ZERO = BigInteger.ZERO;
@@ -39,6 +40,22 @@ public class FactorizationUtils {
         }
 
         return power;
+    }
+
+    // public to allow it to be accessed from outside the package
+    public static byte[] getRandomBytes(long seed, int arrayLength) {
+        FactorizationUtils.logMessage("Creating array for the random number.");
+        var bytes = new byte[arrayLength];
+        
+        FactorizationUtils.logMessage("Generating the random number.");
+        var random = new Random();
+
+        if (seed != 0) {
+            random.setSeed(seed);
+        }
+        random.nextBytes(bytes);
+
+        return bytes;
     }
 
     static void printDate()
