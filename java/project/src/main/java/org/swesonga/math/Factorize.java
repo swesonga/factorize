@@ -47,7 +47,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Set;
 
 public class Factorize implements Runnable {
