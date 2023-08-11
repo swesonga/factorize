@@ -49,3 +49,19 @@ BigInteger documentation: https://docs.oracle.com/en/java/javase/17/docs/api/jav
 
 Java command documentation: https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html
 
+# Networked factorization
+
+Factorization is a problem that can be solved in a distributed manner. Multiple clients can connect to a server, which then distributes the trial
+division work to the clients. To use this model, first start the server:
+
+```
+$JAVA_HOME/bin/java -jar target/factorization-server-0.1.0-jar-with-dependencies.jar 12345
+```
+
+Open another terminal and then start a client by running:
+
+```
+$JAVA_HOME/bin/java -jar target/factorization-client-0.1.0-jar-with-dependencies.jar localhost 12345
+```
+
+Note: the client and server implementations are WIP.
