@@ -1,5 +1,8 @@
 package org.swesonga.math.client;
 
+import java.math.BigInteger;
+import java.util.Arrays;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -7,30 +10,27 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
-import java.math.BigInteger;
-
-import org.swesonga.math.FactorizationUtils;
-import org.swesonga.math.Factorize;
-
 @Sharable
 public class FactorizationClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        long seed = 0;
-        int bytes = 12;
-        byte[] array = FactorizationUtils.getRandomBytes(seed, bytes);
-        var number = new BigInteger(array).abs();
-
-        String numberAsString = number.toString();
-
+        String numberAsString = RandomPayloadGenerator.generateRandomNumber();
+        
         // Send number to the server when the channel becomes active
+        System.out.println("Sending " + numberAsString);
         ctx.writeAndFlush(Unpooled.copiedBuffer(numberAsString, CharsetUtil.UTF_8));
     }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, ByteBuf in) {
         String message = in.toString(CharsetUtil.UTF_8);
-        System.out.println("Factorization Results: " + message);
+
+        String[] factorsAsStrings = message.split(",");
+        var factorsStream = Arrays.stream(factorsAsStrings).map(x -> new BigInteger(x));
+        var product = factorsStream.reduce(BigInteger.ONE, (a, b) -> a.multiply(b));
+
+        System.out.println("Prime Factors: " + message);
+        System.out.println("Product of Prime Factors: " + product);
     }
 
     @Override
