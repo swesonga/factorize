@@ -75,12 +75,6 @@ public class Factorize implements Runnable {
     private Set<BigInteger> primeFactors;
     private Set<BigInteger> unfactorizedDivisors;
 
-    private enum ExecutionMode {
-        SINGLE_THREAD,
-        CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS,
-        CUSTOM_THREAD_COUNT_VIA_EXECUTOR_SERVICE,
-    }
-
     public Factorize(BigInteger input, int factorizationThreadCount) {
         this.input = input;
         this.originalInput = input;
