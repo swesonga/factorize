@@ -247,6 +247,10 @@ public class Factorize implements Runnable {
         }
     }
 
+    public Set<BigInteger> getPrimeFactors() {
+        return primeFactors;
+    }
+
     public void factorize() {
         int currentThreadCounter = threadCounter.getAndIncrement();
         // Start at 3, exclude even numbers from chunk size
