@@ -24,7 +24,7 @@ public class FactorizationClientHandler extends SimpleChannelInboundHandler<Byte
         String numberAsString = number.toString();
 
         // Send number to the server when the channel becomes active
-        ctx.write(Unpooled.copiedBuffer(numberAsString, CharsetUtil.UTF_8));
+        ctx.writeAndFlush(Unpooled.copiedBuffer(numberAsString, CharsetUtil.UTF_8));
     }
 
     @Override
