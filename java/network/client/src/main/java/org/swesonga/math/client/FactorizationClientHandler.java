@@ -12,9 +12,17 @@ import io.netty.util.CharsetUtil;
 
 @Sharable
 public class FactorizationClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
+    private final String number;
+    private final boolean hasNumber;
+
+    public FactorizationClientHandler(String number) {
+        this.number = number;
+        this.hasNumber = number != null && number.length() > 0 && !number.equals("0");
+    }
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        String numberAsString = RandomPayloadGenerator.generateRandomNumber();
+        String numberAsString = hasNumber ? number : RandomPayloadGenerator.generateRandomNumber();
         
         // Send number to the server when the channel becomes active
         System.out.println("Sending " + numberAsString);
