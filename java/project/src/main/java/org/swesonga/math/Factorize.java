@@ -55,8 +55,8 @@ public class Factorize implements Runnable {
     final static BigInteger ONE = BigInteger.ONE;
     final static BigInteger TWO = BigInteger.TWO;
 
-    final static int CHUNK_SIZE = 1024;
-    final static BigInteger CHUNK_SIZE_BIG_INTEGER = new BigInteger(Integer.toString(CHUNK_SIZE));
+    final static long CHUNK_SIZE = 1 << 30;
+    final static BigInteger CHUNK_SIZE_BIG_INTEGER = new BigInteger(Long.toString(CHUNK_SIZE));
     final static int USE_EXECUTOR = 1;
 
     BigInteger originalInput, input, inputSqrt, sqrt;
@@ -92,7 +92,7 @@ public class Factorize implements Runnable {
         this.threadId = new ThreadLocal<>();
         this.chunkValuesProcessed = new ThreadLocal<>();
         this.threadCounter = new AtomicInteger();
-        this.chunkStride = new BigInteger(Integer.toString(factorizationThreadCount * CHUNK_SIZE));
+        this.chunkStride = new BigInteger(Long.toString(factorizationThreadCount * CHUNK_SIZE));
         this.offsetOfNextChunk = chunkStride.subtract(CHUNK_SIZE_BIG_INTEGER);
 
         // https://www.baeldung.com/java-concurrent-hashset-concurrenthashmap
@@ -255,13 +255,13 @@ public class Factorize implements Runnable {
     public void factorize() {
         int currentThreadCounter = threadCounter.getAndIncrement();
         // Start at 3, exclude even numbers from chunk size
-        int startingNumberForThread = 1 + currentThreadCounter * CHUNK_SIZE * 2;
+        long startingNumberForThread = 1 + currentThreadCounter * CHUNK_SIZE * 2;
 
         FactorizationUtils.logMessage("Thread " + currentThreadCounter + " starting candidate: " + startingNumberForThread);
 
         threadId.set(currentThreadCounter);
         chunkValuesProcessed.set(0);
-        nextPrimeFactorCandidateStorage.set(new BigInteger(Integer.toString(startingNumberForThread)));
+        nextPrimeFactorCandidateStorage.set(new BigInteger(Long.toString(startingNumberForThread)));
 
         BigInteger i = GetNextPrimeFactorCandidate();
 
