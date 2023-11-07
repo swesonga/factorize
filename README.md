@@ -6,7 +6,8 @@ using a simple app that does something non-trivial.
 To compile from directory containing this file:
 
 ```
-$JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java
+cd java/project/src/main/java/org/swesonga/math
+$JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java
 ```
 
 To compile using Maven:
