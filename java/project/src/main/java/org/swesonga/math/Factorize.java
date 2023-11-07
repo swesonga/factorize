@@ -409,12 +409,18 @@ public class Factorize implements Runnable {
                 var threadsAsStr = args[2];
                 try {
                     threads = Integer.parseInt(threadsAsStr);
-                    System.out.println("Using " + threads + " threads.");
                 }
                 catch (NumberFormatException nfe) {
                     System.err.println("Error: " + threadsAsStr + " is not a valid number of threads.");
                     return;
                 }
+
+                // Create a thread for every available processor if the user specified 0 threads.
+                if (threads == 0) {
+                    threads = Runtime.getRuntime().availableProcessors();
+                }
+
+                System.out.println("Using " + threads + " threads.");
             }
         }
 
