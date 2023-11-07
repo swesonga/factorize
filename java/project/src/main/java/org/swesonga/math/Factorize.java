@@ -144,7 +144,12 @@ public class Factorize implements Runnable {
         return nextPrimeFactorCandidate;
     }
 
-    public synchronized Set<BigInteger> getUnfactorizedDivisors() {
+    /*
+     * This does not need to be a synchronized method. The running threads that are still
+     * searching for a prime factor are readers and they can keep reading. Only
+     * the write operation (updating the factors left over) needs to be synchronized.
+     */
+    public Set<BigInteger> getUnfactorizedDivisors() {
         return unfactorizedDivisors;
     }
 
