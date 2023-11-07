@@ -55,7 +55,7 @@ public class Factorize implements Runnable {
     final static BigInteger ONE = BigInteger.ONE;
     final static BigInteger TWO = BigInteger.TWO;
 
-    final static long CHUNK_SIZE = 1 << 30;
+    final static long CHUNK_SIZE = 1L << 30;
     final static BigInteger CHUNK_SIZE_BIG_INTEGER = new BigInteger(Long.toString(CHUNK_SIZE));
     final static int USE_EXECUTOR = 1;
 
