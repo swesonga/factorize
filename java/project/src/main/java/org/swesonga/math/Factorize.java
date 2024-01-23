@@ -350,6 +350,7 @@ public class Factorize implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        long startTime = System.nanoTime();
         if (args.length == 0) {
             System.out.println("Usage: Factorize [Number [ExecutionMode [Threads [RNGSeed]]]]");
             return;
@@ -432,5 +433,8 @@ public class Factorize implements Runnable {
         var factorize = new Factorize(input, threads);
 
         factorize.StartFactorization(executionMode);
+        long endTime = System.nanoTime();
+        long timeElapsed = endTime - startTime;
+        FactorizationUtils.logMessage("Running time: " + ((double)(timeElapsed/1000000))/1000.0 + " seconds");
     }
 }
