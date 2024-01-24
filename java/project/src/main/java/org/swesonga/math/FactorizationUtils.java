@@ -69,7 +69,8 @@ public class FactorizationUtils {
         printDate();
         
         if (showThreadId) {
-            message = "tid " + Thread.currentThread().getId() + " " + message;
+            // https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Formatter.html
+            message = String.format("tid %3d %s", Thread.currentThread().getId(), message);
         }
         System.out.println(message);
     }
