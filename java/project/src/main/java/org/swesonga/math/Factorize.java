@@ -277,7 +277,7 @@ public class Factorize implements Runnable {
             long completedDivisibilityTests = divisibilityTests.get();
             divisibilityTests.set(completedDivisibilityTests + 1);
             boolean showPeriodicMessages = completedDivisibilityTests % progressMsgFrequency == 0;
-           boolean foundFactor = false;
+            boolean foundFactor = false;
 
             Set<BigInteger> currUnfactorizedDivisors = getUnfactorizedDivisors();
 
