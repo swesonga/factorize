@@ -262,7 +262,7 @@ public class Factorize implements Runnable {
         // Start at 3, exclude even numbers from chunk size
         long startingNumberForThread = 1 + currentThreadCounter * CHUNK_SIZE * 2;
 
-        FactorizationUtils.logMessage("Thread " + currentThreadCounter + " starting candidate: " + startingNumberForThread);
+        FactorizationUtils.logMessage(String.format("Thread %3d starting candidate: %15d", currentThreadCounter, startingNumberForThread));
 
         threadId.set(currentThreadCounter);
         chunkValuesProcessed.set(0);
@@ -293,7 +293,7 @@ public class Factorize implements Runnable {
                 if (showPeriodicMessages) {
                     String numberAsString = number.toString();
                     String iAsString = i.toString();
-                    FactorizationUtils.logMessage(String.format("Testing divisibility of %s (%d digits) by %s (%d digits)",
+                    FactorizationUtils.logMessage(String.format("Testing divisibility of %s (%d digits) by %15s (%d digits)",
                         numberAsString, numberAsString.length(), iAsString, iAsString.length()));
                 }
 
