@@ -291,7 +291,10 @@ public class Factorize implements Runnable {
             for (int j = 0; j < unfactorizedDivisors.length; j++) {
                 BigInteger number = unfactorizedDivisors[j];
                 if (showPeriodicMessages) {
-                    FactorizationUtils.logMessage("Testing divisibility of " + number + " by " + i);
+                    String numberAsString = number.toString();
+                    String iAsString = i.toString();
+                    FactorizationUtils.logMessage(String.format("Testing divisibility of %s (%d digits) by %s (%d digits)",
+                        numberAsString, numberAsString.length(), iAsString, iAsString.length()));
                 }
 
                 if (number.remainder(i).compareTo(ZERO) == 0) {
