@@ -269,11 +269,24 @@ public class Factorize implements Runnable {
         nextPrimeFactorCandidateStorage.set(new BigInteger(Long.toString(startingNumberForThread)));
 
         BigInteger i = GetNextPrimeFactorCandidate();
+        Set<BigInteger> prevUnfactorizedDivisors = null;
+        BigInteger[] unfactorizedDivisors = new BigInteger[0];
 
         while (i.compareTo(sqrt) <= 0) {
             boolean showPeriodicMessages = divisibilityTests.getAndIncrement() % progressMsgFrequency == 0;
            boolean foundFactor = false;
-           for (var number : getUnfactorizedDivisors()) {
+
+            Set<BigInteger> currUnfactorizedDivisors = getUnfactorizedDivisors();
+
+            // Create an array from the set of unfactorized divisors to avoid a bottleneck
+            // in java.util.concurrent.ConcurrentHashMap$KeySetView.iterator()
+            if (prevUnfactorizedDivisors != currUnfactorizedDivisors) {
+                unfactorizedDivisors = currUnfactorizedDivisors.toArray(new BigInteger[0]);
+                prevUnfactorizedDivisors = currUnfactorizedDivisors;
+            }
+
+            for (int j = 0; j < unfactorizedDivisors.length; j++) {
+                BigInteger number = unfactorizedDivisors[j];
                 if (showPeriodicMessages) {
                     FactorizationUtils.logMessage("Testing divisibility of " + number + " by " + i);
                 }
