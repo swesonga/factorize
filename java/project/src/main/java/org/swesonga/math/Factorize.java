@@ -65,7 +65,7 @@ public class Factorize implements Runnable {
     // Next prime factor candidate
     ThreadLocal<BigInteger> nextPrimeFactorCandidateStorage;
 
-    AtomicLong divisibilityTests;
+    ThreadLocal<Long> divisibilityTests;
 
     private long progressMsgFrequency = 1L << 31;
     private int factorizationThreadCount;
@@ -86,7 +86,7 @@ public class Factorize implements Runnable {
         FactorizationUtils.logMessage("Square root computation complete.");
         sqrt = inputSqrt;
         this.nextPrimeFactorCandidateStorage = new ThreadLocal<>();
-        this.divisibilityTests = new AtomicLong();
+        this.divisibilityTests = new ThreadLocal<>();
         this.factorizationThreadCount = factorizationThreadCount;
 
         this.threadId = new ThreadLocal<>();
@@ -266,6 +266,7 @@ public class Factorize implements Runnable {
 
         threadId.set(currentThreadCounter);
         chunkValuesProcessed.set(0);
+        divisibilityTests.set(0L);
         nextPrimeFactorCandidateStorage.set(new BigInteger(Long.toString(startingNumberForThread)));
 
         BigInteger i = GetNextPrimeFactorCandidate();
@@ -273,7 +274,9 @@ public class Factorize implements Runnable {
         BigInteger[] unfactorizedDivisors = new BigInteger[0];
 
         while (i.compareTo(sqrt) <= 0) {
-            boolean showPeriodicMessages = divisibilityTests.getAndIncrement() % progressMsgFrequency == 0;
+            long completedDivisibilityTests = divisibilityTests.get();
+            divisibilityTests.set(completedDivisibilityTests + 1);
+            boolean showPeriodicMessages = completedDivisibilityTests % progressMsgFrequency == 0;
            boolean foundFactor = false;
 
             Set<BigInteger> currUnfactorizedDivisors = getUnfactorizedDivisors();
