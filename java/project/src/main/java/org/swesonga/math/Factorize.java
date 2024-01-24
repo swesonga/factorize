@@ -67,7 +67,7 @@ public class Factorize implements Runnable {
 
     ThreadLocal<Long> divisibilityTests;
 
-    private long progressMsgFrequency = 1L << 31;
+    private long progressMsgFrequency = 1L << 30;
     private int factorizationThreadCount;
     ThreadLocal<Integer> threadId;
     ThreadLocal<Integer> chunkValuesProcessed;
