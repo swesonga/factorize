@@ -1,0 +1,222 @@
+$ time $JAVA_HOME/bin/java org.swesonga.math.Factorize 43888020554297731002037265505351188221251 CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS 0
+Using 32 threads.
+2024-01-30 12:33:54 tid   1 Computing square root of the input...
+2024-01-30 12:33:54 tid   1 Square root computation complete.
+2024-01-30 12:33:54 tid   1 Bit length of the input: 136
+2024-01-30 12:33:54 tid   1 Testing divisibility by odd numbers up to floor(sqrt(43888020554297731002037265505351188221251)) = 209494679059630846276
+2024-01-30 12:33:54 tid   1 Using Thread.start to run tasks.
+2024-01-30 12:33:54 tid  24 Thread   0 starting candidate:               1
+2024-01-30 12:33:54 tid  28 Thread   4 starting candidate:          524289
+2024-01-30 12:33:54 tid  27 Thread   3 starting candidate:          393217
+2024-01-30 12:33:54 tid  25 Thread   1 starting candidate:          131073
+2024-01-30 12:33:54 tid  26 Thread   2 starting candidate:          262145
+2024-01-30 12:33:54 tid  41 Thread  17 starting candidate:         2228225
+2024-01-30 12:33:54 tid  48 Thread  23 starting candidate:         3014657
+2024-01-30 12:33:54 tid  35 Thread  18 starting candidate:         2359297
+2024-01-30 12:33:54 tid  50 Thread  15 starting candidate:         1966081
+2024-01-30 12:33:54 tid  25 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by          131075 (6 digits)
+2024-01-30 12:33:54 tid  40 Thread  16 starting candidate:         2097153
+2024-01-30 12:33:54 tid  38 Thread  14 starting candidate:         1835009
+2024-01-30 12:33:54 tid  36 Thread  12 starting candidate:         1572865
+2024-01-30 12:33:54 tid  37 Thread  13 starting candidate:         1703937
+2024-01-30 12:33:54 tid  24 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by               3 (1 digits)
+2024-01-30 12:33:54 tid  30 Thread  11 starting candidate:         1441793
+2024-01-30 12:33:54 tid  42 Thread  10 starting candidate:         1310721
+2024-01-30 12:33:54 tid  27 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by          393219 (6 digits)
+2024-01-30 12:33:54 tid  33 Thread   8 starting candidate:         1048577
+2024-01-30 12:33:54 tid  34 Thread   9 starting candidate:         1179649
+2024-01-30 12:33:54 tid  28 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by          524291 (6 digits)
+2024-01-30 12:33:54 tid  31 Thread   7 starting candidate:          917505
+2024-01-30 12:33:54 tid  32 Thread   6 starting candidate:          786433
+2024-01-30 12:33:54 tid  29 Thread   5 starting candidate:          655361
+2024-01-30 12:33:54 tid  32 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by          786435 (6 digits)
+2024-01-30 12:33:54 tid  31 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by          917507 (6 digits)
+2024-01-30 12:33:54 tid  34 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1179651 (7 digits)
+2024-01-30 12:33:54 tid  33 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1048579 (7 digits)
+2024-01-30 12:33:54 tid  42 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1310723 (7 digits)
+2024-01-30 12:33:54 tid  30 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1441795 (7 digits)
+2024-01-30 12:33:54 tid  37 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1703939 (7 digits)
+2024-01-30 12:33:54 tid  36 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1572867 (7 digits)
+2024-01-30 12:33:54 tid  38 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1835011 (7 digits)
+2024-01-30 12:33:54 tid  40 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         2097155 (7 digits)
+2024-01-30 12:33:54 tid  50 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         1966083 (7 digits)
+2024-01-30 12:33:54 tid  35 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         2359299 (7 digits)
+2024-01-30 12:33:54 tid  54 Thread  31 starting candidate:         4063233
+2024-01-30 12:33:54 tid  51 Thread  30 starting candidate:         3932161
+2024-01-30 12:33:54 tid   1 Thread  29 starting candidate:         3801089
+2024-01-30 12:33:54 tid  51 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3932163 (7 digits)
+2024-01-30 12:33:54 tid  52 Thread  28 starting candidate:         3670017
+2024-01-30 12:33:54 tid  48 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3014659 (7 digits)
+2024-01-30 12:33:54 tid  39 Thread  25 starting candidate:         3276801
+2024-01-30 12:33:54 tid  53 Thread  27 starting candidate:         3538945
+2024-01-30 12:33:54 tid  49 Thread  26 starting candidate:         3407873
+2024-01-30 12:33:54 tid  47 Thread  24 starting candidate:         3145729
+2024-01-30 12:33:54 tid  41 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         2228227 (7 digits)
+2024-01-30 12:33:54 tid  26 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by          262147 (6 digits)
+2024-01-30 12:33:54 tid  46 Thread  22 starting candidate:         2883585
+2024-01-30 12:33:54 tid  44 Thread  19 starting candidate:         2490369
+2024-01-30 12:33:54 tid  45 Thread  21 starting candidate:         2752513
+2024-01-30 12:33:54 tid  43 Thread  20 starting candidate:         2621441
+2024-01-30 12:33:54 tid  45 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         2752515 (7 digits)
+2024-01-30 12:33:54 tid  44 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         2490371 (7 digits)
+2024-01-30 12:33:54 tid  46 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         2883587 (7 digits)
+2024-01-30 12:33:54 tid  47 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3145731 (7 digits)
+2024-01-30 12:33:54 tid  49 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3407875 (7 digits)
+2024-01-30 12:33:54 tid  53 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3538947 (7 digits)
+2024-01-30 12:33:54 tid  39 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3276803 (7 digits)
+2024-01-30 12:33:54 tid  52 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3670019 (7 digits)
+2024-01-30 12:33:54 tid   1 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         3801091 (7 digits)
+2024-01-30 12:33:54 tid  54 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         4063235 (7 digits)
+2024-01-30 12:33:54 tid  29 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by          655363 (6 digits)
+2024-01-30 12:33:54 tid  43 Testing divisibility of 43888020554297731002037265505351188221251 (41 digits) by         2621443 (7 digits)
+2024-01-30 12:33:54 tid  24 Found a factor: 3^{1} = 3 of 43888020554297731002037265505351188221251. Number is now 14629340184765910334012421835117062740417
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Unfactorized Divisors
+2024-01-30 12:33:54 tid  24 14629340184765910334012421835117062740417 (41 digits)
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  26 Found a factor: 266797^{1} = 266797 of 14629340184765910334012421835117062740417. Number is now 54833225953687299085118730102351461
+2024-01-30 12:33:54 tid  26 **************************************
+2024-01-30 12:33:54 tid  26 Unfactorized Divisors
+2024-01-30 12:33:54 tid  26 54833225953687299085118730102351461 (35 digits)
+2024-01-30 12:33:54 tid  26 **************************************
+2024-01-30 12:33:54 tid  28 **************************************
+2024-01-30 12:33:54 tid  28 Unfactorized Divisors
+2024-01-30 12:33:54 tid  28 529593 (6 digits)
+2024-01-30 12:33:54 tid  28 54833225953687299085118730102351461 (35 digits)
+2024-01-30 12:33:54 tid  28 **************************************
+2024-01-30 12:33:54 tid  24 Found a factor: 19^{1} = 19 of 54833225953687299085118730102351461. Number is now 2885959260720384162374670005386919
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Unfactorized Divisors
+2024-01-30 12:33:54 tid  24 529593 (6 digits)
+2024-01-30 12:33:54 tid  24 2885959260720384162374670005386919 (34 digits)
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Found a factor: 23^{1} = 23 of 2885959260720384162374670005386919. Number is now 125476489596538441842376956755953
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Unfactorized Divisors
+2024-01-30 12:33:54 tid  24 529593 (6 digits)
+2024-01-30 12:33:54 tid  24 125476489596538441842376956755953 (33 digits)
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Found a factor: 181^{1} = 181 of 125476489596538441842376956755953. Number is now 693240274014024540565618545613
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Unfactorized Divisors
+2024-01-30 12:33:54 tid  24 529593 (6 digits)
+2024-01-30 12:33:54 tid  24 693240274014024540565618545613 (30 digits)
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Found a factor: 211^{1} = 211 of 693240274014024540565618545613. Number is now 3285498928976419623533737183
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Unfactorized Divisors
+2024-01-30 12:33:54 tid  24 529593 (6 digits)
+2024-01-30 12:33:54 tid  24 3285498928976419623533737183 (28 digits)
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Found a factor: 2539^{1} = 2539 of 3285498928976419623533737183. Number is now 1294012969269956527583197
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Unfactorized Divisors
+2024-01-30 12:33:54 tid  24 529593 (6 digits)
+2024-01-30 12:33:54 tid  24 1294012969269956527583197 (25 digits)
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Found a factor: 9733^{1} = 9733 of 1294012969269956527583197. Number is now 132951091058250953209
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  24 Unfactorized Divisors
+2024-01-30 12:33:54 tid  24 529593 (6 digits)
+2024-01-30 12:33:54 tid  24 132951091058250953209 (21 digits)
+2024-01-30 12:33:54 tid  24 **************************************
+2024-01-30 12:33:54 tid  25 Found a factor: 176531^{1} = 176531 of 529593. Number is now 3
+2024-01-30 12:33:54 tid  25 Found a factor: 176531^{1} = 176531 of 132951091058250953209. Number is now 753131693913539
+2024-01-30 12:33:54 tid  25 **************************************
+2024-01-30 12:33:54 tid  25 Unfactorized Divisors
+2024-01-30 12:33:54 tid  25 753131693913539 (15 digits)
+2024-01-30 12:33:54 tid  25 **************************************
+2024-01-30 12:33:54 tid  43 Found a factor: 26501159^{1} = 26501159 of 753131693913539. Number is now 28418821
+2024-01-30 12:33:54 tid  43 **************************************
+2024-01-30 12:33:54 tid  43 Unfactorized Divisors
+2024-01-30 12:33:54 tid  43 **************************************
+2024-01-30 12:33:54 tid  42 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  42 Thread completed.
+2024-01-30 12:33:54 tid  53 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  53 Thread completed.
+2024-01-30 12:33:54 tid  48 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  48 Thread completed.
+2024-01-30 12:33:54 tid  54 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  54 Thread completed.
+2024-01-30 12:33:54 tid  52 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  52 Thread completed.
+2024-01-30 12:33:54 tid  49 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  49 Thread completed.
+2024-01-30 12:33:54 tid  40 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  40 Thread completed.
+2024-01-30 12:33:54 tid  31 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  31 Thread completed.
+2024-01-30 12:33:54 tid  39 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  39 Thread completed.
+2024-01-30 12:33:54 tid  50 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  50 Thread completed.
+2024-01-30 12:33:54 tid   1 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid   1 Thread completed.
+2024-01-30 12:33:54 tid  29 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  29 Thread completed.
+2024-01-30 12:33:54 tid  26 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  26 Thread completed.
+2024-01-30 12:33:54 tid  27 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  27 Thread completed.
+2024-01-30 12:33:54 tid  33 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  33 Thread completed.
+2024-01-30 12:33:54 tid  32 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  32 Thread completed.
+2024-01-30 12:33:54 tid  30 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  30 Thread completed.
+2024-01-30 12:33:54 tid  34 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  34 Thread completed.
+2024-01-30 12:33:54 tid  38 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  38 Thread completed.
+2024-01-30 12:33:54 tid  44 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  44 Thread completed.
+2024-01-30 12:33:54 tid  51 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  51 Thread completed.
+2024-01-30 12:33:54 tid  47 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  47 Thread completed.
+2024-01-30 12:33:54 tid  41 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  41 Thread completed.
+2024-01-30 12:33:54 tid  46 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  46 Thread completed.
+2024-01-30 12:33:54 tid  37 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  37 Thread completed.
+2024-01-30 12:33:54 tid  35 **************************************
+2024-01-30 12:33:54 tid  35 Unfactorized Divisors
+2024-01-30 12:33:54 tid  35 **************************************
+2024-01-30 12:33:54 tid  25 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  25 Thread completed.
+2024-01-30 12:33:54 tid  43 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  43 Thread completed.
+2024-01-30 12:33:54 tid  45 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  45 Thread completed.
+2024-01-30 12:33:54 tid  36 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  36 Thread completed.
+2024-01-30 12:33:54 tid  24 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  24 Thread completed.
+2024-01-30 12:33:54 tid  28 **************************************
+2024-01-30 12:33:54 tid  28 Unfactorized Divisors
+2024-01-30 12:33:54 tid  28 **************************************
+2024-01-30 12:33:54 tid  28 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  28 Thread completed.
+2024-01-30 12:33:54 tid  35 Thread factorization tasks complete.
+2024-01-30 12:33:54 tid  35 Thread completed.
+2024-01-30 12:33:54 tid   1 Prime factors:
+176531^{1} = 176531
+3^{1} = 3
+19^{1} = 19
+211^{1} = 211
+26501159^{1} = 26501159
+28418821^{1} = 28418821
+181^{1} = 181
+9733^{1} = 9733
+23^{1} = 23
+266797^{1} = 266797
+2539^{1} = 2539
+2024-01-30 12:33:54 tid   1 Validation complete.
+2024-01-30 12:33:54 tid   1 43888020554297731002037265505351188221251 is composite. Found 11 prime factors. Checked up to floor(sqrt(43888020554297731002037265505351188221251)) = 209494679059630846276
+
+2024-01-30 12:33:54 tid   1 Running time: 0.878 seconds
+
+real    0m1.106s
+user    0m0.000s
+sys     0m0.000s
