@@ -189,7 +189,9 @@ public class Factorize implements Runnable {
         FactorizationUtils.logMessage("**************************************");
         FactorizationUtils.logMessage("Unfactorized Divisors");
         for (var number : unfactorizedDivisors) {
-            System.out.println(number);
+            String numberAsString = number.toString();
+            FactorizationUtils.logMessage(String.format("%s (%d digits)",
+                numberAsString, numberAsString.length()));
         }
         FactorizationUtils.logMessage("**************************************");
     }
