@@ -18,8 +18,8 @@
  * Sample Usage:
  *
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 65
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 438880205542
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 43888020554297731
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 438880205542 -threads matchcpus
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 43888020554297731 -threads 4
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 42039582593802342572091
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 42039582593802342572091 -mode CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS -threads 6
@@ -486,12 +486,17 @@ public class Factorize implements Runnable {
 
         if (commandLine.hasOption(threadsOption)) {
             String threadsAsStr = commandLine.getOptionValue(threadsOption);
-            try {
-                threads = Integer.parseInt(threadsAsStr);
-            }
-            catch (NumberFormatException nfe) {
-                System.err.println("Error: " + threadsAsStr + " is not a valid number of threads.");
-                return;
+
+            if (threadsAsStr.toLowerCase().equals("matchcpus")) {
+                threads = 0;
+            } else {
+                try {
+                    threads = Integer.parseInt(threadsAsStr);
+                }
+                catch (NumberFormatException nfe) {
+                    System.err.println("Error: " + threadsAsStr + " is not a valid number of threads.");
+                    return;
+                }
             }
 
             // Create a thread for every available processor if the user specified 0 threads.
