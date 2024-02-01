@@ -44,13 +44,14 @@ public class FactorizationUtils {
 
     // public to allow it to be accessed from outside the package
     public static byte[] getRandomBytes(long seed, int arrayLength) {
-        FactorizationUtils.logMessage("Creating array for the random number.");
+        FactorizationUtils.logMessage(String.format("Creating array of %d bytes for the random number.", arrayLength));
         var bytes = new byte[arrayLength];
         
         FactorizationUtils.logMessage("Generating the random number.");
         var random = new Random();
 
         if (seed != 0) {
+            FactorizationUtils.logMessage(String.format("Setting the seed to %d.", seed));
             random.setSeed(seed);
         }
         random.nextBytes(bytes);
