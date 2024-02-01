@@ -5,35 +5,41 @@
  *
  * Author: Saint Wesonga
  *
+ * Dependencies:
+ * 
+ *  https://commons.apache.org/proper/commons-cli/
+ * 
  * To compile from directory containing this file:
  * 
+ *  export CLASSPATH=/c/java/commons-cli-1.6.0/commons-cli-1.6.0.jar:.
  *  cd java/project/src/main/java/org/swesonga/math
  *  $JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java
  *
  * Sample Usage:
  *
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize 65
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize 438880205542
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize 43888020554297731
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize 4388802055429773100203726550535118822125
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize 42039582593802342572091
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize 42039582593802342572091 CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS 6
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 65
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 438880205542
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 43888020554297731
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 42039582593802342572091
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 42039582593802342572091 -mode CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS -threads 6
  *
  * Generate a random 13-byte integer to factorize using 4 threads:
  *
- *  $JAVA_HOME/bin/java Factorize 13 CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS 4 0
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number rand -randNumSize 13 -mode CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS -threads 4
  *
  * To time the process and get context switching, page fault, and other stats on Linux:
  *
- *  /usr/bin/time -v $JAVA_HOME/bin/java org.swesonga.math.Factorize 42039582593802342572091 CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS 4
- *  /usr/bin/time -v $JAVA_HOME/bin/java org.swesonga.math.Factorize 4388802055429773100203726550535118822125 CUSTOM_THREAD_COUNT_VIA_EXECUTOR_SERVICE 6
+ *  /usr/bin/time -v $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 42039582593802342572091 -mode CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS -threads 4
+ *  /usr/bin/time -v $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -mode CUSTOM_THREAD_COUNT_VIA_EXECUTOR_SERVICE -threads 6
  *
  * BigInteger documentation:
  *
  *  https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/math/BigInteger.html
  *
- * Java Command:
+ * Java Commands:
  * 
+ *  https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html
  *  https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html
  * 
  */
@@ -49,6 +55,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.Set;
+
+// https://github.com/apache/commons-cli
+import org.apache.commons.cli.*;
 
 public class Factorize implements Runnable {
     final static BigInteger ZERO = BigInteger.ZERO;
@@ -370,17 +379,85 @@ public class Factorize implements Runnable {
         }
     }
 
+    private static void showUsage() {
+        System.out.println("Usage: Factorize -number integer [-mode ExecutionMode -threads threads -seed RNGSeed]");
+    }
+
     public static void main(String[] args) throws InterruptedException {
         long startTime = System.nanoTime();
-        if (args.length == 0) {
-            System.out.println("Usage: Factorize [Number [ExecutionMode [Threads [RNGSeed]]]]");
+
+        final String numberOption      = "number";
+        final String modeOption        = "mode";
+        final String threadsOption     = "threads";
+        final String seedOption        = "seed";
+        final String randNumSizeOption = "randNumSize";
+
+        Options options = new Options();
+        options.addOption(numberOption,      true, "number to factorize. use 'rand' to generate a random number to factorize");
+        options.addOption(modeOption,        true, "execution mode");
+        options.addOption(threadsOption,     true, "number of threads");
+        options.addOption(seedOption,        true, "random number generator seed to use when number is set to 'rand'");
+        options.addOption(randNumSizeOption, true, "size in bytes of the random number generated when number is set to 'rand'");
+
+        CommandLineParser parser = new DefaultParser();
+        CommandLine commandLine;
+
+        try {
+            commandLine = parser.parse(options, args);
+        }
+        catch (ParseException e) {
+            System.err.println("Error parsing command line arguments.");
+            showUsage();
+            return;
+        }
+
+        if (!commandLine.hasOption(numberOption)) {
+            showUsage();
             return;
         }
 
         BigInteger input;
 
         try {
-            input = new BigInteger(args[0]);
+            String number = commandLine.getOptionValue(numberOption);
+
+            if (!"rand".equals(number.toLowerCase())) {
+                input = new BigInteger(number);
+            } else {
+                long seed = 0;
+                int randNumSize = 16;
+
+                if (commandLine.hasOption(randNumSizeOption)) {
+                    String randNumSizeAsStr = commandLine.getOptionValue(randNumSizeOption);
+                    try {
+                        randNumSize = Integer.parseInt(randNumSizeAsStr);
+                    }
+                    catch (NumberFormatException nfe) {
+                        System.err.println("Error: " + randNumSizeAsStr + " is not a valid number of threads.");
+                        return;
+                    }
+                }
+
+                if (commandLine.hasOption(seedOption)) {
+                    String seedAsStr = commandLine.getOptionValue(seedOption);
+                    try {
+                        seed = Long.parseLong(seedAsStr);
+                    }
+                    catch (NumberFormatException nfe) {
+                        System.err.println("Error: " + seedAsStr + " is not a valid long value.");
+                        return;
+                    }
+                }
+
+                byte[] inputArray = FactorizationUtils.getRandomBytes(seed, randNumSize);
+
+                FactorizationUtils.logMessage("Random number generation complete. Creating a BigInteger.");
+                input = new BigInteger(inputArray).abs();
+
+                String numberAsString = input.toString();
+                FactorizationUtils.logMessage(String.format("Integer to factorize: %s (%d digits)",
+                    numberAsString, numberAsString.length()));
+            }
         }
         catch (NumberFormatException nfe) {
             System.err.println("Error: " + args[0] + " is not a valid base 10 number.");
@@ -395,8 +472,9 @@ public class Factorize implements Runnable {
         int threads = 1;
 
         ExecutionMode executionMode = ExecutionMode.SINGLE_THREAD;
-        if (args.length > 1) {
-            var executionModeAsStr = args[1];
+
+        if (commandLine.hasOption(modeOption)) {
+            String executionModeAsStr = commandLine.getOptionValue(modeOption);
             try {
                 executionMode = ExecutionMode.valueOf(executionModeAsStr);
             }
@@ -404,52 +482,25 @@ public class Factorize implements Runnable {
                 System.err.println("Error: " + executionModeAsStr + " is not a valid execution mode.");
                 return;
             }
+        }
 
-            if (args.length > 3) {
-                int inputAsIntValue = 0;
-                try {
-                    inputAsIntValue = input.intValueExact();
-                }
-                catch (ArithmeticException ex) {
-                    System.err.println("Error: invalid random array size.");
-                    return;
-                }
-
-                var seedAsStr = args[3];
-                long seed = 0;
-                try {
-                    seed = Long.parseLong(seedAsStr);
-                    System.out.println("Using " + threads + " threads.");
-                }
-                catch (NumberFormatException nfe) {
-                    System.err.println("Error: " + seedAsStr + " is not a valid long value.");
-                    return;
-                }
-
-                byte[] inputArray = FactorizationUtils.getRandomBytes(seed, inputAsIntValue);
-
-                FactorizationUtils.logMessage("Random number generation complete. Creating a BigInteger.");
-                input = new BigInteger(inputArray).abs();
+        if (commandLine.hasOption(threadsOption)) {
+            String threadsAsStr = commandLine.getOptionValue(threadsOption);
+            try {
+                threads = Integer.parseInt(threadsAsStr);
+            }
+            catch (NumberFormatException nfe) {
+                System.err.println("Error: " + threadsAsStr + " is not a valid number of threads.");
+                return;
             }
 
-            if (executionMode != ExecutionMode.SINGLE_THREAD && args.length > 2) {
-                var threadsAsStr = args[2];
-                try {
-                    threads = Integer.parseInt(threadsAsStr);
-                }
-                catch (NumberFormatException nfe) {
-                    System.err.println("Error: " + threadsAsStr + " is not a valid number of threads.");
-                    return;
-                }
-
-                // Create a thread for every available processor if the user specified 0 threads.
-                if (threads == 0) {
-                    threads = Runtime.getRuntime().availableProcessors();
-                }
-
-                System.out.println("Using " + threads + " threads.");
+            // Create a thread for every available processor if the user specified 0 threads.
+            if (threads == 0) {
+                threads = Runtime.getRuntime().availableProcessors();
             }
         }
+
+        FactorizationUtils.logMessage(String.format("Using %d threads.", threads));
 
         var factorize = new Factorize(input, threads);
 
