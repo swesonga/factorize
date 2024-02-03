@@ -205,65 +205,6 @@ public class Factorize implements Runnable {
         FactorizationUtils.logMessage("**************************************");
     }
 
-    private void LaunchThreadsManually(int numThreads) throws InterruptedException {
-        var threads = new ArrayList<Thread>();
-
-        for (int i = 0; i < numThreads - 1; i++) {
-            var thread = new Thread(this);
-            threads.add(thread);
-
-            thread.start();
-        }
-        
-        run();
-
-        for (int i = 0; i < numThreads - 1; i++) {
-            var thread = threads.get(i);
-            thread.join();
-        }
-    }
-
-    private void LaunchThreadsViaExecutor(int numThreads) throws InterruptedException {
-        ExecutorService pool = Executors.newFixedThreadPool(numThreads);
-
-        for (int i = 0; i < numThreads; i++) {
-            pool.execute(this);
-        }
-
-        pool.awaitTermination(365 * 24 * 3600, TimeUnit.SECONDS);
-        pool.shutdown();
-    }
-
-    public void StartFactorization(ExecutionMode executionMode) throws InterruptedException {
-        FactorizationUtils.logMessage("Bit length of the input: " + input.bitLength());
-
-        boolean factorizationComplete = input.testBit(0) ? PrimalityTest.isPrime(input) : ExtractLargestPowerOf2();
-
-        if (!factorizationComplete) {
-            unfactorizedDivisors.add(input);
-            FactorizationUtils.logMessage("Testing divisibility by odd numbers up to floor(sqrt(" + input + ")) = " + sqrt);
-
-            switch (executionMode) {
-                case SINGLE_THREAD:
-                    FactorizationUtils.logMessage("Using main thread to run tasks.");
-                    run();
-                    break;
-                case CUSTOM_THREAD_COUNT_VIA_EXECUTOR_SERVICE:
-                    FactorizationUtils.logMessage("Using executor service to run tasks.");
-                    LaunchThreadsViaExecutor(factorizationThreadCount);
-                    break;
-                case CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS:
-                    FactorizationUtils.logMessage("Using Thread.start to run tasks.");
-                    LaunchThreadsManually(factorizationThreadCount);
-                    break;
-            }
-        }
-
-        if (validate()) {
-            LogCompletion();
-        }
-    }
-
     public Set<BigInteger> getPrimeFactors() {
         return primeFactors;
     }
@@ -363,11 +304,6 @@ public class Factorize implements Runnable {
         return true;
     }
 
-    public void run() {
-        factorize();
-        FactorizationUtils.logMessage("Thread completed.");
-    }
-
     public void LogCompletion() {
         long totalPrimeFactors = primeFactors.size();
         if (totalPrimeFactors == 0) {
@@ -376,6 +312,70 @@ public class Factorize implements Runnable {
         else {
             FactorizationUtils.logMessage(originalInput + " is composite. Found " + totalPrimeFactors + " prime factors. Checked up to floor(sqrt(" + input + ")) = "
                                 + inputSqrt + "\n");
+        }
+    }
+
+    public void run() {
+        factorize();
+        FactorizationUtils.logMessage("Thread completed.");
+    }
+
+    private void LaunchThreadsManually(int numThreads) throws InterruptedException {
+        var threads = new ArrayList<Thread>();
+
+        for (int i = 0; i < numThreads - 1; i++) {
+            var thread = new Thread(this);
+            threads.add(thread);
+
+            thread.start();
+        }
+        
+        run();
+
+        for (int i = 0; i < numThreads - 1; i++) {
+            var thread = threads.get(i);
+            thread.join();
+        }
+    }
+
+    private void LaunchThreadsViaExecutor(int numThreads) throws InterruptedException {
+        ExecutorService pool = Executors.newFixedThreadPool(numThreads);
+
+        for (int i = 0; i < numThreads; i++) {
+            pool.execute(this);
+        }
+
+        pool.awaitTermination(365 * 24 * 3600, TimeUnit.SECONDS);
+        pool.shutdown();
+    }
+
+    public void StartFactorization(ExecutionMode executionMode) throws InterruptedException {
+        FactorizationUtils.logMessage("Bit length of the input: " + input.bitLength());
+
+        boolean factorizationComplete = input.testBit(0) ? PrimalityTest.isPrime(input) : ExtractLargestPowerOf2();
+
+        if (!factorizationComplete) {
+            unfactorizedDivisors.add(input);
+            FactorizationUtils.logMessage("Testing divisibility by odd numbers up to floor(sqrt(" + input + ")) = " + sqrt);
+
+            switch (executionMode) {
+                case SINGLE_THREAD:
+                    FactorizationUtils.logMessage("Using main thread to run tasks.");
+                    run();
+                    break;
+                case CUSTOM_THREAD_COUNT_VIA_EXECUTOR_SERVICE:
+                    FactorizationUtils.logMessage("Using executor service to run tasks.");
+                    LaunchThreadsViaExecutor(factorizationThreadCount);
+                    break;
+                case CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS:
+                    FactorizationUtils.logMessage("Using Thread.start to run tasks.");
+                    LaunchThreadsManually(factorizationThreadCount);
+                    break;
+            }
+        }
+
+        if (validate()) {
+            LogCompletion();
         }
     }
 
