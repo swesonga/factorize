@@ -18,7 +18,7 @@
  * Sample Usage:
  *
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 65
- *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 438880205542 -threads matchcpus
+ *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 45666757028904829064261583846220052692 -threads matchcpus
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 43888020554297731 -threads 4
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125
  *  $JAVA_HOME/bin/java org.swesonga.math.Factorize -number 42039582593802342572091
@@ -471,19 +471,6 @@ public class Factorize implements Runnable {
 
         int threads = 1;
 
-        ExecutionMode executionMode = ExecutionMode.SINGLE_THREAD;
-
-        if (commandLine.hasOption(modeOption)) {
-            String executionModeAsStr = commandLine.getOptionValue(modeOption);
-            try {
-                executionMode = ExecutionMode.valueOf(executionModeAsStr);
-            }
-            catch (IllegalArgumentException ex) {
-                System.err.println("Error: " + executionModeAsStr + " is not a valid execution mode.");
-                return;
-            }
-        }
-
         if (commandLine.hasOption(threadsOption)) {
             String threadsAsStr = commandLine.getOptionValue(threadsOption);
 
@@ -502,6 +489,24 @@ public class Factorize implements Runnable {
             // Create a thread for every available processor if the user specified 0 threads.
             if (threads == 0) {
                 threads = Runtime.getRuntime().availableProcessors();
+            }
+        }
+
+        ExecutionMode executionMode = ExecutionMode.CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS;
+
+        if (commandLine.hasOption(modeOption)) {
+            String executionModeAsStr = commandLine.getOptionValue(modeOption);
+            try {
+                executionMode = ExecutionMode.valueOf(executionModeAsStr);
+            }
+            catch (IllegalArgumentException ex) {
+                System.err.println("Error: " + executionModeAsStr + " is not a valid execution mode.");
+                return;
+            }
+
+            if (executionMode == ExecutionMode.SINGLE_THREAD && threads != 1) {
+                System.err.println("Error: " + executionMode + " is not a valid execution mode when the thread count is specified.");
+                return;
             }
         }
 
