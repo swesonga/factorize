@@ -23,8 +23,12 @@ On Windows:
 set CLASSPATH=C:/java/commons-cli-1.6.0/commons-cli-1.6.0.jar;.
 set JAVA_HOME=C:/java/binaries/jdk/x64/jdk-21.0.1+12
 cd java/project/src/main/java/org/swesonga/math
+
 %JAVA_HOME%/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java
-%JAVA_HOME%/bin/java org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -threads matchcpus
+%JAVA_HOME%/bin/java org.swesonga.math.Factorize -threads matchcpus -number 4388802055429773100203726550535118822125
+
+:: Alternative that does not depend on the CLASSPATH environment variable
+%JAVA_HOME%/bin/java -cp C:/java/commons-cli-1.6.0/commons-cli-1.6.0.jar;. org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -threads matchcpus
 ```
 
 To compile using Maven:
