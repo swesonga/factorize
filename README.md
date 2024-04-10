@@ -15,16 +15,22 @@ tar xzf commons-cli-1.6.0-bin.tar.gz
 ```
 
 # Compilation
-To compile from directory containing this file:
+To compile in bash from directory containing this file:
 
 ```
-export CLASSPATH=/c/java/commons-cli-1.6.0/commons-cli-1.6.0.jar:.
+export CLASSPATH=~/java/commons-cli-1.6.0/commons-cli-1.6.0.jar:.
 export JAVA_HOME=~/java/binaries/jdk/x64/jdk-21.0.2+13
 cd java/project/src/main/java/org/swesonga/math
 $JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java
+
+# Run the factorization program
+$JAVA_HOME/bin/java org.swesonga.math.Factorize -threads matchcpus -number 4388802055429773100203726550535118822125
+
+# Alternative that does not depend on the CLASSPATH environment variable
+$JAVA_HOME/bin/java -cp ~/java/commons-cli-1.6.0/commons-cli-1.6.0.jar:. org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -threads matchcpus
 ```
 
-On Windows:
+In the Windows command prompt:
 
 ```
 set CLASSPATH=C:/java/commons-cli-1.6.0/commons-cli-1.6.0.jar;.
