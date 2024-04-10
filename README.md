@@ -5,7 +5,14 @@ using a simple app that does something non-trivial.
 
 ## Dependencies:
 
- https://commons.apache.org/proper/commons-cli/
+Download the [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/) using these commands:
+
+```
+mkdir -p ~/java
+cd ~/java
+curl -Lo commons-cli-1.6.0-bin.tar.gz https://dlcdn.apache.org//commons/cli/binaries/commons-cli-1.6.0-bin.tar.gz
+tar xzf commons-cli-1.6.0-bin.tar.gz
+```
 
 # Compilation
 To compile from directory containing this file:
