@@ -54,6 +54,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 // https://github.com/apache/commons-cli
@@ -85,9 +86,12 @@ public class Factorize implements Runnable {
     private Set<BigInteger> primeFactors;
     private Set<BigInteger> unfactorizedDivisors;
 
-    public Factorize(BigInteger input, int factorizationThreadCount) {
+    int valuesHeldPerThread = 0;
+
+    public Factorize(BigInteger input, int factorizationThreadCount, int valuesHeldPerThread) {
         this.input = input;
         this.originalInput = input;
+        this.valuesHeldPerThread = valuesHeldPerThread;
 
         FactorizationUtils.logMessage("Computing square root of the input...");
         inputSqrt = input.sqrt();
@@ -225,6 +229,11 @@ public class Factorize implements Runnable {
         Set<BigInteger> prevUnfactorizedDivisors = null;
         BigInteger[] unfactorizedDivisors = new BigInteger[0];
 
+        var setOfAllValuesProcessed = new HashSet<BigInteger>();
+        if (setOfAllValuesProcessed.size() < valuesHeldPerThread) {
+            setOfAllValuesProcessed.add(i);
+        }
+
         while (i.compareTo(sqrt) <= 0) {
             long completedDivisibilityTests = divisibilityTests.get();
             divisibilityTests.set(completedDivisibilityTests + 1);
@@ -267,6 +276,10 @@ public class Factorize implements Runnable {
             }
 
             i = GetNextPrimeFactorCandidate();
+
+            if (setOfAllValuesProcessed.size() < valuesHeldPerThread) {
+                setOfAllValuesProcessed.add(i);
+            }
 
             // break if another thread completed the factorization
             if (i.compareTo(ZERO) == 0) {
@@ -391,6 +404,7 @@ public class Factorize implements Runnable {
         final String threadsOption     = "threads";
         final String seedOption        = "seed";
         final String randNumSizeOption = "randNumSize";
+        final String valuesHeldOption  = "valuesHeldPerThread";
 
         Options options = new Options();
         options.addOption(numberOption,      true, "number to factorize. use 'rand' to generate a random number to factorize");
@@ -398,6 +412,7 @@ public class Factorize implements Runnable {
         options.addOption(threadsOption,     true, "number of threads");
         options.addOption(seedOption,        true, "random number generator seed to use when number is set to 'rand'");
         options.addOption(randNumSizeOption, true, "size in bytes of the random number generated when number is set to 'rand'");
+        options.addOption(valuesHeldOption,  true, "number of processed integers each thread will add to a set to increase memory usage");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine commandLine;
@@ -510,9 +525,22 @@ public class Factorize implements Runnable {
             }
         }
 
+        int valuesHeldPerThread = 0;
+        if (commandLine.hasOption(valuesHeldOption)) {
+            String valuesHeldAsStr = commandLine.getOptionValue(valuesHeldOption);
+
+            try {
+                valuesHeldPerThread = Integer.parseInt(valuesHeldAsStr);
+            }
+            catch (NumberFormatException nfe) {
+                System.err.println("Error: " + valuesHeldAsStr + " is not a valid number of values to save per thread.");
+                return;
+            }
+        }
+
         FactorizationUtils.logMessage(String.format("Using %d threads.", threads));
 
-        var factorize = new Factorize(input, threads);
+        var factorize = new Factorize(input, threads, valuesHeldPerThread);
 
         factorize.StartFactorization(executionMode);
         long endTime = System.nanoTime();
