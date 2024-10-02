@@ -336,16 +336,14 @@ public class Factorize implements Runnable {
     private void LaunchThreadsManually(int numThreads) throws InterruptedException {
         var threads = new ArrayList<Thread>();
 
-        for (int i = 0; i < numThreads - 1; i++) {
+        for (int i = 0; i < numThreads; i++) {
             var thread = new Thread(this, "Factorization Thread " + i);
             threads.add(thread);
 
             thread.start();
         }
-        
-        run();
 
-        for (int i = 0; i < numThreads - 1; i++) {
+        for (int i = 0; i < numThreads; i++) {
             var thread = threads.get(i);
             thread.join();
         }
