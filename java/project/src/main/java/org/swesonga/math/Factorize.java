@@ -77,7 +77,7 @@ public class Factorize implements Runnable {
 
     ThreadLocal<Long> divisibilityTests;
 
-    private long progressMsgFrequency = 1L << 30;
+    private long progressMsgFrequency;
     private int factorizationThreadCount;
     ThreadLocal<Integer> threadId;
     ThreadLocal<Integer> chunkValuesProcessed;
@@ -88,10 +88,11 @@ public class Factorize implements Runnable {
 
     int valuesHeldPerThread = 0;
 
-    public Factorize(BigInteger input, int factorizationThreadCount, int valuesHeldPerThread) {
+    public Factorize(BigInteger input, int factorizationThreadCount, int valuesHeldPerThread, long progressMsgFrequency) {
         this.input = input;
         this.originalInput = input;
         this.valuesHeldPerThread = valuesHeldPerThread;
+        this.progressMsgFrequency = progressMsgFrequency;
 
         FactorizationUtils.logMessage("Computing square root of the input...");
         inputSqrt = input.sqrt();
@@ -411,6 +412,7 @@ public class Factorize implements Runnable {
         final String seedOption        = "seed";
         final String randNumSizeOption = "randNumSize";
         final String valuesHeldOption  = "valuesHeldPerThread";
+        final String progressMsgFrequencyOption  = "progressMsgFrequency";
 
         Options options = new Options();
         options.addOption(numberOption,      true, "number to factorize. use 'rand' to generate a random number to factorize");
@@ -419,6 +421,7 @@ public class Factorize implements Runnable {
         options.addOption(seedOption,        true, "random number generator seed to use when number is set to 'rand'");
         options.addOption(randNumSizeOption, true, "size in bytes of the random number generated when number is set to 'rand'");
         options.addOption(valuesHeldOption,  true, "number of processed integers each thread will add to a set to increase memory usage");
+        options.addOption(progressMsgFrequencyOption,  true, "how often messages are written to the standard output");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine commandLine;
@@ -544,9 +547,22 @@ public class Factorize implements Runnable {
             }
         }
 
+        long progressMsgFrequency = 1L << 30;
+        if (commandLine.hasOption(progressMsgFrequencyOption)) {
+            String progressMsgFrequencyAsStr = commandLine.getOptionValue(progressMsgFrequencyOption);
+
+            try {
+                progressMsgFrequency = Long.parseLong(progressMsgFrequencyAsStr);
+            }
+            catch (NumberFormatException nfe) {
+                System.err.println("Error: " + progressMsgFrequencyAsStr + " is not a valid number of values to save per thread.");
+                return;
+            }
+        }
+
         FactorizationUtils.logMessage(String.format("Using %d threads.", threads));
 
-        var factorize = new Factorize(input, threads, valuesHeldPerThread);
+        var factorize = new Factorize(input, threads, valuesHeldPerThread, progressMsgFrequency);
 
         factorize.StartFactorization(executionMode);
         long endTime = System.nanoTime();
