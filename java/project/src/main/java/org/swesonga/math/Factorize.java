@@ -254,8 +254,16 @@ public class Factorize implements Runnable {
                 if (showPeriodicMessages) {
                     String numberAsString = number.toString();
                     String iAsString = i.toString();
-                    FactorizationUtils.logMessage(String.format("Testing divisibility of %s (%d digits) by %15s (%d digits)",
-                        numberAsString, numberAsString.length(), iAsString, iAsString.length()));
+
+                    String message;
+                    if (valuesHeldPerThread > 0) {
+                        message = String.format("Testing divisibility of %s (%d digits) by %15s (%d digits) with %d values held",
+                        numberAsString, numberAsString.length(), iAsString, iAsString.length(), setOfAllValuesProcessed.size());
+                    } else {
+                        message = String.format("Testing divisibility of %s (%d digits) by %15s (%d digits)",
+                        numberAsString, numberAsString.length(), iAsString, iAsString.length());
+                    }
+                    FactorizationUtils.logMessage(message);
                 }
 
                 if (number.remainder(i).compareTo(ZERO) == 0) {
