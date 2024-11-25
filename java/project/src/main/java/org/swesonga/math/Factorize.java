@@ -73,8 +73,6 @@ public class Factorize implements Runnable {
 
     ThreadLocal<Long> divisibilityTests;
 
-    private long progressMsgFrequency;
-    private long systemGCFrequency;
     private int factorizationThreadCount;
     ThreadLocal<Integer> threadId;
     ThreadLocal<Integer> chunkValuesProcessed;
@@ -83,16 +81,12 @@ public class Factorize implements Runnable {
     private Set<BigInteger> primeFactors;
     private Set<BigInteger> unfactorizedDivisors;
 
-    int valuesHeldPerThread = 0;
     FactorizationArguments factorizationArgs;
 
     public Factorize(FactorizationArguments factorizationArgs) {
         this.factorizationArgs = factorizationArgs;
         this.input = factorizationArgs.number;
         this.originalInput = input;
-        this.valuesHeldPerThread = factorizationArgs.valuesHeldPerThread;
-        this.progressMsgFrequency = factorizationArgs.progressMsgFrequency;
-        this.systemGCFrequency = factorizationArgs.systemGCFrequency;
 
         FactorizationUtils.logMessage("Computing square root of the input...");
         inputSqrt = input.sqrt();
@@ -101,12 +95,11 @@ public class Factorize implements Runnable {
         sqrt = inputSqrt;
         this.nextPrimeFactorCandidateStorage = new ThreadLocal<>();
         this.divisibilityTests = new ThreadLocal<>();
-        this.factorizationThreadCount = factorizationArgs.threads;
 
         this.threadId = new ThreadLocal<>();
         this.chunkValuesProcessed = new ThreadLocal<>();
         this.threadCounter = new AtomicInteger();
-        this.chunkStride = new BigInteger(Long.toString(factorizationThreadCount * CHUNK_SIZE));
+        this.chunkStride = new BigInteger(Long.toString(factorizationArgs.threads * CHUNK_SIZE));
         this.offsetOfNextChunk = chunkStride.subtract(CHUNK_SIZE_BIG_INTEGER);
 
         // https://www.baeldung.com/java-concurrent-hashset-concurrenthashmap
@@ -231,15 +224,15 @@ public class Factorize implements Runnable {
         BigInteger[] unfactorizedDivisors = new BigInteger[0];
 
         var setOfAllValuesProcessed = new HashSet<BigInteger>();
-        if (setOfAllValuesProcessed.size() < valuesHeldPerThread) {
+        if (setOfAllValuesProcessed.size() < factorizationArgs.valuesHeldPerThread) {
             setOfAllValuesProcessed.add(i);
         }
 
         while (i.compareTo(sqrt) <= 0) {
             long completedDivisibilityTests = divisibilityTests.get();
             divisibilityTests.set(completedDivisibilityTests + 1);
-            boolean showPeriodicMessages = completedDivisibilityTests % progressMsgFrequency == 0;
-            boolean runSystemGC = systemGCFrequency > 0 && completedDivisibilityTests % systemGCFrequency == 0;
+            boolean showPeriodicMessages = completedDivisibilityTests % factorizationArgs.progressMsgFrequency == 0;
+            boolean runSystemGC = factorizationArgs.systemGCFrequency > 0 && completedDivisibilityTests % factorizationArgs.systemGCFrequency == 0;
             boolean foundFactor = false;
 
             Set<BigInteger> currUnfactorizedDivisors = getUnfactorizedDivisors();
@@ -258,7 +251,7 @@ public class Factorize implements Runnable {
                     String iAsString = i.toString();
 
                     String message;
-                    if (valuesHeldPerThread > 0) {
+                    if (factorizationArgs.valuesHeldPerThread > 0) {
                         message = String.format("Testing divisibility of %s (%d digits) by %15s (%d digits) with %d values held",
                         numberAsString, numberAsString.length(), iAsString, iAsString.length(), setOfAllValuesProcessed.size());
                     } else {
@@ -292,7 +285,7 @@ public class Factorize implements Runnable {
 
             i = GetNextPrimeFactorCandidate();
 
-            if (setOfAllValuesProcessed.size() < valuesHeldPerThread) {
+            if (setOfAllValuesProcessed.size() < factorizationArgs.valuesHeldPerThread) {
                 setOfAllValuesProcessed.add(i);
             }
 
