@@ -78,6 +78,7 @@ public class Factorize implements Runnable {
     ThreadLocal<Long> divisibilityTests;
 
     private long progressMsgFrequency;
+    private long systemGCFrequency;
     private int factorizationThreadCount;
     ThreadLocal<Integer> threadId;
     ThreadLocal<Integer> chunkValuesProcessed;
@@ -88,11 +89,12 @@ public class Factorize implements Runnable {
 
     int valuesHeldPerThread = 0;
 
-    public Factorize(BigInteger input, int factorizationThreadCount, int valuesHeldPerThread, long progressMsgFrequency) {
+    public Factorize(BigInteger input, int factorizationThreadCount, int valuesHeldPerThread, long progressMsgFrequency, long systemGCFrequency) {
         this.input = input;
         this.originalInput = input;
         this.valuesHeldPerThread = valuesHeldPerThread;
         this.progressMsgFrequency = progressMsgFrequency;
+        this.systemGCFrequency = systemGCFrequency;
 
         FactorizationUtils.logMessage("Computing square root of the input...");
         inputSqrt = input.sqrt();
@@ -239,6 +241,7 @@ public class Factorize implements Runnable {
             long completedDivisibilityTests = divisibilityTests.get();
             divisibilityTests.set(completedDivisibilityTests + 1);
             boolean showPeriodicMessages = completedDivisibilityTests % progressMsgFrequency == 0;
+            boolean runSystemGC = systemGCFrequency > 0 && completedDivisibilityTests % systemGCFrequency == 0;
             boolean foundFactor = false;
 
             Set<BigInteger> currUnfactorizedDivisors = getUnfactorizedDivisors();
@@ -265,6 +268,11 @@ public class Factorize implements Runnable {
                         numberAsString, numberAsString.length(), iAsString, iAsString.length());
                     }
                     FactorizationUtils.logMessage(message);
+                }
+
+                if (runSystemGC) {
+                    // System.out.println("Running System.gc()");
+                    System.gc();
                 }
 
                 if (number.remainder(i).compareTo(ZERO) == 0) {
@@ -413,6 +421,7 @@ public class Factorize implements Runnable {
         final String randNumSizeOption = "randNumSize";
         final String valuesHeldOption  = "valuesHeldPerThread";
         final String progressMsgFrequencyOption  = "progressMsgFrequency";
+        final String systemGCFrequencyOption  = "systemGCFrequency";
 
         Options options = new Options();
         options.addOption(numberOption,      true, "number to factorize. use 'rand' to generate a random number to factorize");
@@ -422,6 +431,7 @@ public class Factorize implements Runnable {
         options.addOption(randNumSizeOption, true, "size in bytes of the random number generated when number is set to 'rand'");
         options.addOption(valuesHeldOption,  true, "number of processed integers each thread will add to a set to increase memory usage");
         options.addOption(progressMsgFrequencyOption,  true, "how often messages are written to the standard output");
+        options.addOption(systemGCFrequencyOption,  true, "how often System.gc() is invoked. Default to off (-1) by default");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine commandLine;
@@ -560,9 +570,22 @@ public class Factorize implements Runnable {
             }
         }
 
+        long systemGCFrequency = -1;
+        if (commandLine.hasOption(systemGCFrequencyOption)) {
+            String systemGCFrequencyAsStr = commandLine.getOptionValue(systemGCFrequencyOption);
+
+            try {
+                systemGCFrequency = Long.parseLong(systemGCFrequencyAsStr);
+            }
+            catch (NumberFormatException nfe) {
+                System.err.println("Error: " + systemGCFrequencyAsStr + " is not a valid frequency for System.gc() invocations.");
+                return;
+            }
+        }
+
         FactorizationUtils.logMessage(String.format("Using %d threads.", threads));
 
-        var factorize = new Factorize(input, threads, valuesHeldPerThread, progressMsgFrequency);
+        var factorize = new Factorize(input, threads, valuesHeldPerThread, progressMsgFrequency, systemGCFrequency);
 
         factorize.StartFactorization(executionMode);
         long endTime = System.nanoTime();
