@@ -73,7 +73,6 @@ public class Factorize implements Runnable {
 
     ThreadLocal<Long> divisibilityTests;
 
-    private int factorizationThreadCount;
     ThreadLocal<Integer> threadId;
     ThreadLocal<Integer> chunkValuesProcessed;
     private AtomicInteger threadCounter;
@@ -384,11 +383,11 @@ public class Factorize implements Runnable {
                     break;
                 case CUSTOM_THREAD_COUNT_VIA_EXECUTOR_SERVICE:
                     FactorizationUtils.logMessage("Using executor service to run tasks.");
-                    LaunchThreadsViaExecutor(factorizationThreadCount);
+                    LaunchThreadsViaExecutor(factorizationArgs.threads);
                     break;
                 case CUSTOM_THREAD_COUNT_VIA_THREAD_CLASS:
                     FactorizationUtils.logMessage("Using Thread.start to run tasks.");
-                    LaunchThreadsManually(factorizationThreadCount);
+                    LaunchThreadsManually(factorizationArgs.threads);
                     break;
             }
         }
