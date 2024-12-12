@@ -21,7 +21,7 @@ To compile in bash from directory containing this file:
 export CLASSPATH=~/java/commons-cli-1.6.0/commons-cli-1.6.0.jar:.
 export JAVA_HOME=~/java/binaries/jdk/x64/jdk-21.0.2+13
 cd java/project/src/main/java/org/swesonga/math
-$JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java
+$JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java FactorizationArguments.java FactorizationArgumentParser.java
 
 # Run the factorization program
 $JAVA_HOME/bin/java org.swesonga.math.Factorize -threads matchcpus -number 4388802055429773100203726550535118822125
