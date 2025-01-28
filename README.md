@@ -10,15 +10,15 @@ Download the [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/
 ```
 mkdir -p ~/java
 cd ~/java
-curl -Lo commons-cli-1.6.0-bin.tar.gz https://dlcdn.apache.org//commons/cli/binaries/commons-cli-1.6.0-bin.tar.gz
-tar xzf commons-cli-1.6.0-bin.tar.gz
+curl -Lo commons-cli-1.9.0-bin.tar.gz https://dlcdn.apache.org//commons/cli/binaries/commons-cli-1.9.0-bin.tar.gz
+tar xzf commons-cli-1.9.0-bin.tar.gz
 ```
 
 # Compilation
 To compile in bash from directory containing this file:
 
 ```
-export CLASSPATH=~/java/commons-cli-1.6.0/commons-cli-1.6.0.jar:.
+export CLASSPATH=~/java/commons-cli-1.9.0/commons-cli-1.9.0.jar:.
 export JAVA_HOME=~/java/binaries/jdk/x64/jdk-21.0.2+13
 cd java/project/src/main/java/org/swesonga/math
 $JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java FactorizationArguments.java FactorizationArgumentParser.java
@@ -27,13 +27,13 @@ $JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.j
 $JAVA_HOME/bin/java org.swesonga.math.Factorize -threads matchcpus -number 4388802055429773100203726550535118822125
 
 # Alternative that does not depend on the CLASSPATH environment variable
-$JAVA_HOME/bin/java -cp ~/java/commons-cli-1.6.0/commons-cli-1.6.0.jar:. org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -threads matchcpus
+$JAVA_HOME/bin/java -cp ~/java/commons-cli-1.9.0/commons-cli-1.9.0.jar:. org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -threads matchcpus
 ```
 
 In the Windows command prompt:
 
 ```
-set CLASSPATH=C:/java/commons-cli-1.6.0/commons-cli-1.6.0.jar;.
+set CLASSPATH=C:/java/commons-cli-1.9.0/commons-cli-1.9.0.jar;.
 set JAVA_HOME=C:/java/binaries/jdk/x64/jdk-21.0.1+12
 cd java/project/src/main/java/org/swesonga/math
 
@@ -41,7 +41,7 @@ cd java/project/src/main/java/org/swesonga/math
 %JAVA_HOME%/bin/java org.swesonga.math.Factorize -threads matchcpus -number 4388802055429773100203726550535118822125
 
 :: Alternative that does not depend on the CLASSPATH environment variable
-%JAVA_HOME%/bin/java -cp C:/java/commons-cli-1.6.0/commons-cli-1.6.0.jar;. org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -threads matchcpus
+%JAVA_HOME%/bin/java -cp C:/java/commons-cli-1.9.0/commons-cli-1.9.0.jar;. org.swesonga.math.Factorize -number 4388802055429773100203726550535118822125 -threads matchcpus
 ```
 
 To compile using Maven:
