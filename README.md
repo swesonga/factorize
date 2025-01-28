@@ -18,9 +18,10 @@ tar xzf commons-cli-1.9.0-bin.tar.gz
 To compile in bash from directory containing this file:
 
 ```
+cd java/project/src/main/java/org/swesonga/math
 export CLASSPATH=~/java/commons-cli-1.9.0/commons-cli-1.9.0.jar:.
 export JAVA_HOME=~/java/binaries/jdk/x64/jdk-21.0.2+13
-cd java/project/src/main/java/org/swesonga/math
+export JAVA_HOME=~/java/forks/openjdk/jdk/build/linux-x86_64-server-slowdebug/jdk
 $JAVA_HOME/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java FactorizationArguments.java FactorizationArgumentParser.java
 
 # Run the factorization program
@@ -33,9 +34,10 @@ $JAVA_HOME/bin/java -cp ~/java/commons-cli-1.9.0/commons-cli-1.9.0.jar:. org.swe
 In the Windows command prompt:
 
 ```
+cd java/project/src/main/java/org/swesonga/math
 set CLASSPATH=C:/java/commons-cli-1.9.0/commons-cli-1.9.0.jar;.
 set JAVA_HOME=C:/java/binaries/jdk/x64/jdk-21.0.1+12
-cd java/project/src/main/java/org/swesonga/math
+set JAVA_HOME=C:/java/forks/openjdk/jdk/build/windows-x86_64-server-slowdebug/jdk
 
 %JAVA_HOME%/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java
 %JAVA_HOME%/bin/java org.swesonga.math.Factorize -threads matchcpus -number 4388802055429773100203726550535118822125
