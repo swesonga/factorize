@@ -39,7 +39,7 @@ set CLASSPATH=C:/java/commons-cli-1.9.0/commons-cli-1.9.0.jar;.
 set JAVA_HOME=C:/java/binaries/jdk/x64/jdk-21.0.1+12
 set JAVA_HOME=C:/java/forks/openjdk/jdk/build/windows-x86_64-server-slowdebug/jdk
 
-%JAVA_HOME%/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java
+%JAVA_HOME%/bin/javac -d . PrimalityTest.java FactorizationUtils.java Factorize.java ExecutionMode.java FactorizationArguments.java FactorizationArgumentParser.java
 %JAVA_HOME%/bin/java org.swesonga.math.Factorize -threads matchcpus -number 4388802055429773100203726550535118822125
 
 :: Alternative that does not depend on the CLASSPATH environment variable
