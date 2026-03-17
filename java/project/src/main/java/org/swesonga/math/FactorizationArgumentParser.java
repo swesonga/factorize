@@ -18,6 +18,7 @@ public class FactorizationArgumentParser {
 
     public static FactorizationArguments parseFromStrings(String[] args) {
         final String numberOption      = "number";
+        final String radixOption       = "radix";
         final String modeOption        = "mode";
         final String threadsOption     = "threads";
         final String seedOption        = "seed";
@@ -28,6 +29,7 @@ public class FactorizationArgumentParser {
 
         Options options = new Options();
         options.addOption(numberOption,      true, "number to factorize. use 'rand' to generate a random number to factorize");
+        options.addOption(radixOption,       true, "radix of the number to factorize");
         options.addOption(modeOption,        true, "execution mode");
         options.addOption(threadsOption,     true, "number of threads");
         options.addOption(seedOption,        true, "random number generator seed to use when number is set to 'rand'");
@@ -59,7 +61,20 @@ public class FactorizationArgumentParser {
             String number = commandLine.getOptionValue(numberOption);
 
             if (!"rand".equals(number.toLowerCase())) {
-                input = new BigInteger(number);
+                int radix = 10;
+                if (commandLine.hasOption(radixOption)) {
+                    String radixAsStr = commandLine.getOptionValue(radixOption);
+
+                    try {
+                        radix = Integer.parseInt(radixAsStr);
+                    }
+                    catch (NumberFormatException nfe) {
+                        System.err.println("Error: " + radixAsStr + " is not a valid radix.");
+                        System.exit(-1);
+                    }
+                }
+
+                input = new BigInteger(number, radix);
             } else {
                 long seed = 0;
                 int randNumSize = 16;
