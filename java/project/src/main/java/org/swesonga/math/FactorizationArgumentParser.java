@@ -1,6 +1,7 @@
 package org.swesonga.math;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 
 // https://github.com/apache/commons-cli
 // https://commons.apache.org/proper/commons-cli/apidocs/org/apache/commons/cli/package-summary.html
@@ -65,16 +66,22 @@ public class FactorizationArgumentParser {
                 if (commandLine.hasOption(radixOption)) {
                     String radixAsStr = commandLine.getOptionValue(radixOption);
 
-                    try {
-                        radix = Integer.parseInt(radixAsStr);
-                    }
-                    catch (NumberFormatException nfe) {
-                        System.err.println("Error: " + radixAsStr + " is not a valid radix.");
-                        System.exit(-1);
+                    if ("utf8".equalsIgnoreCase(radixAsStr)) {
+                        input = new BigInteger(1, number.getBytes(StandardCharsets.UTF_8));
+                    } else {
+                        try {
+                            radix = Integer.parseInt(radixAsStr);
+                        }
+                        catch (NumberFormatException nfe) {
+                            System.err.println("Error: " + radixAsStr + " is not a valid radix.");
+                            System.exit(-1);
+                        }
                     }
                 }
 
-                input = new BigInteger(number, radix);
+                if (input == null) {
+                    input = new BigInteger(number, radix);
+                }
             } else {
                 long seed = 0;
                 int randNumSize = 16;
