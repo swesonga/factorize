@@ -196,8 +196,8 @@ public class Factorize implements Runnable {
         FactorizationUtils.logMessage("Unfactorized Divisors");
         for (var number : unfactorizedDivisors) {
             String numberAsString = number.toString();
-            FactorizationUtils.logMessage(String.format("%s (%d digits)",
-                numberAsString, numberAsString.length()));
+            FactorizationUtils.logMessage(String.format("%s (%d digits, bitLength %d)",
+                numberAsString, numberAsString.length(), number.bitLength()));
         }
         FactorizationUtils.logMessage("**************************************");
     }
