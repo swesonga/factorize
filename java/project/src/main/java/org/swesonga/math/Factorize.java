@@ -368,7 +368,8 @@ public class Factorize implements Runnable {
     }
 
     public void StartFactorization(ExecutionMode executionMode) throws InterruptedException {
-        FactorizationUtils.logMessage("Bit length of the input: " + input.bitLength());
+        FactorizationUtils.logMessage("Input in hex:    " + input.toString(16));
+        FactorizationUtils.logMessage("Input bitLength: " + input.bitLength());
 
         boolean factorizationComplete = input.testBit(0) ? PrimalityTest.isPrime(input) : ExtractLargestPowerOf2();
 
